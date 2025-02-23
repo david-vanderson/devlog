@@ -1,0 +1,23 @@
+---
+.title = "DVUI",
+.description = "Immediate Zig GUI for Apps and Games",
+.date = @date("2020-07-06T00:00:00"),
+.author = "David Vanderson",
+.layout = "index.shtml",
+.draft = false,
+.tags = [],
+---
+
+```=html
+  <div class="get-started"><a href="/demo/">Web Demo</a></div>
+```
+
+## What is DVUI?
+DVUI is a general purpose Zig GUI toolkit.
+
+It is suitable for normal applications, or debugging windows in existing apps/games.
+
+It has an **immediate mode API** but gives you all input events, so useable in **low and variable framerate** situations.
+
+For applications DVUI can manage waiting for input so you only render frames when needed.
+

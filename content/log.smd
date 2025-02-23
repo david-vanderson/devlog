@@ -1,0 +1,51 @@
+---
+.title = "DVUI Devlog",
+.description = "Devlog",
+.date = @date("2020-07-06T00:00:00"),
+.author = "David Vanderson",
+.layout = "index.shtml",
+.alternatives = [{
+    .name = "rss",
+    .type = "application/rss+xml",
+	.layout = "rss.xml", 
+	// this is the output path of the generated xml file
+	.output = "log.xml",
+}],
+.draft = false,
+.tags = [],
+---
+
+```=html
+  <p>
+    <a href="/log.xml">RSS Feed</a>
+  </p>
+```
+
+## [min_size_content is not the minimum]($section.id("2025-02-23"))
+If the parent does not have enough space, child widgets get less than their min size.
+
+What about **max_size_content** - can a widget get more?
+
+Yes - if that widget is expanded, it can be larger than max_size_content.
+
+**min_size_content** and **max_size_content** are both constraints imposed on the minimum size that dvui saves for each widget from frame to frame.
+
+
+
+## [Why min_size_content?]($section.id("2025-02-22"))
+To make it clear that padding/border/margin is added on top of that.
+
+Why not just **min_size**?
+
+This is an example of naming tension in API design.
+
+When you want a widget to be larger than its minimum size (but not expanded):
+```
+.{ .min_size_content = .{ .w = 100, .h = 50 } }
+```
+We could make it shorter and easier to remember by using just **min_size**, but then you have to remember (or lookup) if that already includes padding/border/margin.
+
+So **min_size_content** costs more characters but makes reading the code (especially for people new to DVUI) slightly easier.
+
+Hard to know which way to go, but I think about stuff like this a lot.
+

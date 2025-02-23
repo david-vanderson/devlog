@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<title id="title" :text="$page.title"></title>
+<head id="head">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="$site.asset('fonts.css').link()">
+    <link rel="stylesheet" type="text/css" href="$site.asset('fira_code.css').link()">
+    <link rel="stylesheet" type="text/css" href="$site.asset('style.css').link()">
+    <link rel="stylesheet" type="text/css" href="$site.asset('highlight.css').link()">
+  <style>
+    #page h2,
+    #page h3 {
+        text-align: left;
+    }
+
+    #page h2 {
+        font-size: 1.7rem;
+        border-bottom: 1px dashed #aaa;
+        margin-top: 2em;
+    }
+
+    #page h3 {
+        font-size: 1.5rem;
+    }
+
+    #page h4 {
+        font-size: 1rem;
+    }
+
+    .title,
+    .subtitle {
+        margin-bottom: 0;
+    }
+
+    .subtitle,
+    .tagline {
+        margin-top: 0;
+    }
+
+    .title {
+        font-size: 3rem;
+    }
+
+    .subtitle {
+        font-size: 2rem;
+    }
+
+    .tagline {
+        font-size: 1rem;
+        font-style: italic;
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+        padding: 2px 5px;
+        text-align: center;
+    }
+
+    .get-started {
+        font-family: 'Bebas Neue', sans-serif;
+        font-weight: normal;
+        font-size: 2rem;
+        text-align: center;
+        margin: 1em;
+    }
+
+    .get-started a {
+        color: black;
+        font-weight: normal;
+        background-color: #ccc;
+        border: 1px solid #ccc;
+        padding: 3px 10px;
+        text-decoration: none;
+    }
+
+    .get-started a:hover {
+        background-color: white;
+    }
+  </style>
+</head>
+<body>
+    <nav id="menu" class="centered">
+      <a href="/">Home</a>
+      -
+      <a href="/demo/">Demo</a>
+      -
+      <a href="/docs/">Documentation</a>
+      -
+      <a href="/community/">Community</a>
+      -
+      <a href="$site.page('log').link()">Devlog</a>
+      -
+      <a href="https://github.com/david-vanderson/dvui" target="_blank">
+        Code
+      </a>
+    </nav>
+<div id="content">
+    <h1 class="centered title"><img src="/dvui.png"></h1>
+    <h2 class="centered subtitle" id="subtitle" :html="$page.description"></h2>
+  <div id="page" :html="$page.content()"></div>
+</div>
+</body>
