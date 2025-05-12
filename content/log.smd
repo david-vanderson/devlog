@@ -21,6 +21,139 @@
   </p>
 ```
 
+## [Taking Units Seriously]($section.id("2025-05-12"))
+DVUI's main geometry struct is a `Rect` (rectangle with x,y and width/height).  But what are the units?
+
+We have 3 common units:
+* Physical Pixels
+  * 1-to-1 with screen/output pixels
+  * dvui events and drawing use this
+* Natural Pixels
+  * approximately 72 per inch
+  * will be different from Physical on hidpi screens
+  * modified by content scaling
+  * dvui floating windows/widgets use this
+  * OS events generally use this
+* Logical Pixels
+  * local coordinates possibly modified by parent widgets
+  * ScaleWidget changes this
+  * normal widgets use this
+
+For example, you might specify a `textEntry` with a font that is 16px tall and `.min_content_size = .{ .w = 100 }`.  Those are logical pixels, so they mean something together, but don't say anything about how large it will be on the screen.
+
+To convert, widgets call `WidgetData.rectScale()` (or similar) which calls `parent.screenRectScale()` to get a `RectScale`.  That is a physical rect plus a scale, and represents a rectangle of screen pixels and the scale factor between logical and physical pixels.
+
+From the beginning we've had a steady stream of units errors because the units were implicit.
+
+#### Making Units Explicit
+
+We're trying out adding units to the types.  Now we have:
+* Rect (Logical)
+* Rect.Physical
+* Rect.Natural
+
+For example `RectScale.rectToPhysical()` converts from a (logical) Rect to Rect.Physical.  `Rect.scale()` now requires a unit type representing the units being converted to.
+
+The drawing functions all take Rect.Physical, and the floating functions take Rect.Natural, hopefully making most units errors into compile errors.
+
+This has already caught a few bugs, and I'm hoping it helps going forward.
+
+
+## [April 2025]($section.id("2025-05-01"))
+Special thank you this month to Teodor Källman, who implemented:
+* Testing
+  * we can now run gui tests as normal zig tests
+  * testing backend that runs headless
+  * github actions to run the builtin tests
+  * snapshot images for ensuring no visible changes
+  * documentation images produced from tests
+* Scripting
+  * gui interactions can be automated for testing/scripting
+* Dx11 backend render targets
+* Animation easing functions
+* Rounded corners on textures
+* App
+  * higher-level interface for using dvui
+  * dvui runs the mainloop (you provide a few callbacks)
+  * app can be run on multiple backends
+
+Thank you to @Yinameah for making the docs look much better!
+
+7 people contributed this month with 227 commits.
+
+Thank you to everyone who asked questions, filed issues, and contributed!
+
+## [type-based intent]($section.id("2025-04-30"))
+We recently split `Texture` into two types: `Texture` and `TextureTarget`.
+
+Both have the same fields (pointer, width, height), so what gives?
+
+Backends make two varieties of textures:  "Normal" ones that are drawn **from**, and "Target" ones that are drawn **to**.
+
+Some backends (web, raylib) treat these interchangeably.  But sdl can't read from a "Normal", and dx11 can't draw from a "Target".
+
+Generally the type you get from the backend is the same, but there is a bit of state associated with it.  We could have done the same:
+```
+pub const Texture = struct {
+    is_target: bool,
+```
+
+But then we have to check that field (easy to mess up), and have a way to notify developers if they used the wrong kind in the wrong place.
+
+#### Type-based Intent
+
+We are now putting that bit of state into the type:
+```
+// this is always "normal"
+pub const Texture = struct { ... };
+
+// this is always "target"
+pub const TextureTarget = struct { ... };
+```
+
+Now you get a compile error when trying to use the wrong one in the wrong place.  Great!
+
+
+## [March 2025]($section.id("2025-04-01"))
+dvui got a bunch of new stuff this month:
+* combobox (combines textEntry and dropdown)
+* suggestions (choices that show dynamically under a textEntry)
+* tooltips
+* web file upload
+* simple plots
+* kerning
+* horizontal mouse wheel support
+
+Plus a whole ton of minor fixes and enhancements.
+
+We had 6 people contribute this month!
+
+Thank you to everyone who asked questions, filed issues, and contributed!
+
+## [double click, long tap, and friction]($section.id("2025-03-11"))
+dvui does not currently have built-in support for double-click, double-tap, or long-tap.  My current thinking is that those interaction patterns are generally worse than the alternatives.
+
+The general advantage of these is to have a second way to interact with a widget besides a normal click/tap.  Otherwise you need a separate widget, or the widget be modal, or change depending on zoom level, or some other redesign.
+
+The downsides are poor discoverability and accessibility.  I've personally had the experience of trying to double-click or long-tap something, nothing happens, and I'm left unsure if it doesn't exist or if I did the interaction wrong.
+
+I've watched people with slight hand shakiness try to long-tap repeatedly but only ever get a touch-drag.
+
+This is why dvui's textLayout and textEntry widgets provide a modal touch interface.  A single tap transitions between normal mode and selection mode.
+
+They do have mouse-only 2-click word select and 3-click line select.  Those are features that are useful to some while not requiring use by all.
+
+#### How much should my opinions shape dvui's design?
+
+On one hand dvui must serve its users (developers) in providing the UI features they need and want.
+
+On the other hand dvui should serve its users by making it easier to build good UIs than bad ones.  Nobody wants a button that by default only responds to a triple-click.
+
+My strategy is to make requested features possible, but use my experience to guide developers by making some features easier to use than others.
+
+We see a similar strategy in Zig design, where the core team uses "friction" to guide developers - some patterns are intentionally left more awkward to use than others to discorage their use while not preventing it outright.
+
+
 ## [min_size_content is not the minimum]($section.id("2025-02-23"))
 If the parent does not have enough space, child widgets get less than their min size.
 
