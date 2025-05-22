@@ -1,6 +1,6 @@
 ---
 .title = "DVUI Devlog 2025",
-.date = @date("1990-01-01T00:00:00"),
+.date = @date("2025-01-01T00:00:00"),
 .author = "David Vanderson",
 .layout = "devlog.shtml",
 .draft = false,
@@ -10,6 +10,20 @@
 [RSS Feed]($link.page('log').alternative('rss'))
 
 [Archive](/log/)
+
+## [In the Wild: Layer Failure]($section.id("2025-05-22"))
+[]($image.asset('fail_layer.gif'))
+
+What's going on here:
+* I touch "cancel"
+* Dialog goes away
+* My touch *also* clicks the button underneath "cancel"
+
+In the end a store assistant came over and knew some other place on the screen
+you could touch to get rid of the dialog.
+
+This kind of thing is why DVUI put a lot of work into the interaction between events and subwindows (dvui's layers).
+
 
 ## [Taking Units Seriously]($section.id("2025-05-12"))
 DVUI's main geometry struct is a `Rect` (rectangle with x,y and width/height).  But what are the units?
