@@ -1,11 +1,10 @@
 ---
 .title = "DVUI",
 .description = "Immediate Zig GUI for Apps and Games",
-.date = @date("2020-07-06T00:00:00"),
+.date = @date("1990-01-01T00:00:00"),
 .author = "David Vanderson",
 .layout = "index.shtml",
 .draft = false,
-.tags = [],
 ---
 
 ```=html
@@ -21,3 +20,6 @@ It has an **immediate mode API** but gives you all input events, so useable in *
 
 For applications DVUI can manage waiting for input so you only render frames when needed.
 
+```=html
+  <a href="/demo/">Web Demo</a>
+```

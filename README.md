@@ -1,2 +1,2 @@
-# devlog
-dvui devlog site
+# dvui devlog
+published at https://david-vanderson.github.io/

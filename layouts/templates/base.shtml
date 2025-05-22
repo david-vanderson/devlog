@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head id="head">
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1">
+    <link type="text/css" rel="stylesheet" href="$site.asset('style.css').link()">
+    <link type="text/css" rel="stylesheet" href="$site.asset('highlight.css').link()">
+    <super>
+  </head>
+  <body id="body">
+    <nav>
+      <a href="$site.page('').link()">Home</a>
+       &nbsp; • &nbsp;
+      <a href="/demo/">Demo</a>
+       &nbsp; • &nbsp;
+      <a href="/docs/">Docs</a>
+       &nbsp; • &nbsp;
+      <a href="$site.page('community').link()">Community</a>
+      <ctx :if="$site.page('log').subpages().first?()">
+         &nbsp; • &nbsp;
+        <a href="$if.link()">Devlog</a>
+      </ctx>
+       &nbsp; • &nbsp;
+      <a href="https://github.com/david-vanderson/dvui">Code</a>
+    </nav>
+    <h1 class="site-title"><img src="$site.asset('dvui.png').link()" height=120></h1>
+    <h1 class="site-subtitle" :text="$page.description"></h1>
+    <super>
+    <footer>
+      <hr>
+    </footer>
+  </body>
+</html>

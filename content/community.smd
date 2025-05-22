@@ -1,11 +1,10 @@
 ---
 .title = "DVUI Community",
 .description = "Community",
-.date = @date("2020-07-06T00:00:00"),
+.date = @date("1990-01-01T00:00:00"),
 .author = "David Vanderson",
 .layout = "index.shtml",
 .draft = false,
-.tags = [],
 ---
 ## DVUI Community
 Issues and Pull Requests can be filed in the github repo: https://github.com/david-vanderson/dvui
@@ -13,4 +12,3 @@ Issues and Pull Requests can be filed in the github repo: https://github.com/dav
 Discussion happens on #gui-dev in discord: https://discord.gg/eJgXXTtVzA
 
 See you there!
-

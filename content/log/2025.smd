@@ -1,25 +1,15 @@
 ---
-.title = "DVUI Devlog",
-.description = "Devlog",
-.date = @date("2020-07-06T00:00:00"),
+.title = "DVUI Devlog 2025",
+.date = @date("1990-01-01T00:00:00"),
 .author = "David Vanderson",
-.layout = "index.shtml",
-.alternatives = [{
-    .name = "rss",
-    .type = "application/rss+xml",
-	.layout = "rss.xml", 
-	// this is the output path of the generated xml file
-	.output = "log.xml",
-}],
+.layout = "devlog.shtml",
 .draft = false,
-.tags = [],
----
+--- 
+[]($section.id('about'))
 
-```=html
-  <p>
-    <a href="/log.xml">RSS Feed</a>
-  </p>
-```
+[RSS Feed]($link.page('log').alternative('rss'))
+
+[Archive](/log/)
 
 ## [Taking Units Seriously]($section.id("2025-05-12"))
 DVUI's main geometry struct is a `Rect` (rectangle with x,y and width/height).  But what are the units?
