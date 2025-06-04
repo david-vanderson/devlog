@@ -11,6 +11,55 @@
 
 [Archive](/log/)
 
+## [Raylib Variable Framerate]($section.id("2025-06-04"))
+@sooriya on discord recently asked if we could do variable framerate on raylib, and now we can!
+
+For waiting on an event without any timeout, raylib already had the necessary pieces with EnableEventWaiting().
+
+For waiting with a timeout, I submitted a proposal PR to raylib, but it was turned down.  So for that we are assuming that raylib is using glfw and we are directly calling glfwWaitEventsTimeout().
+
+You can get this either by using dvui.App or copying the relevant parts from the updated examples/raylib-standalone.zig.
+
+It's not perfect:
+* glfwWaitEventsTimeout() doesn't tell us if it was interrupted or not
+* if an event comes between EndDrawing() and glfwWaitEventsTimeout() we will wait anyway
+
+But it's good enough for applications that don't want to peg the cpu.
+
+
+## [May 2025]($section.id("2025-06-01"))
+**7** people contributed this month with **192** commits.
+
+**nat3** rewrote and improved our icon rendering and compatibility:
+* [svg2tvg](https://github.com/nat3Github/zig-lib-svg2tvg) is now dvui's icon renderer
+* [icons](https://github.com/nat3Github/zig-lib-icons) hosts many icons in tvg format
+
+Thank you!
+
+**Paul Hatchman** wrote an entire GridWidget:
+* see "Grid" part of the demo for all the cool functionality
+
+Thank you!
+
+**Teodor Källman** was back again:
+* [type safety](#2025-05-12) for Rect/Size/Point
+* type safety for pre-multiplied alpha in Color
+* color picker
+* debug logging handled and unhandled events
+* triangles drawing abstraction supporting:
+  * gradients
+  * box shadows
+  * textures with rounded corners
+* snapshots independent of rendering
+* better documentation image generation
+* suggestion/combobox filtering
+
+See "Styling" part of the demo for the color picker, box shadows, and gradients.
+
+Thank you!
+
+Thank you to everyone who asked questions, filed issues, and contributed!
+
 ## [In the Wild: Layer Failure]($section.id("2025-05-22"))
 []($image.asset('fail_layer.gif'))
 
