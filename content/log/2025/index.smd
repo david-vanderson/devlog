@@ -11,6 +11,27 @@
 
 [Archive](/log/)
 
+## [Removing Errors From Most Functions]($section.id("2025-06-17"))
+Teodor Källman has successfully removed errors from almost all dvui functions.  Horay!
+
+Now dvui handles most errors internally:
+* If the high level API failes to allocate space for a widget, we panic.
+  * The alternative is to allocate the widget on the stack, but it is unclear how that would be better.
+* If a widget gets an error while rendering, it logs it and continues.
+* If a widget gets an allocation error internally (like a label format that goes bad), it logs it and continues.
+
+Some functions like `textureCreate()` can still fail.
+
+Up to this point we hadn't spent much time thinking about errors.  Everybody (that I saw) put `try` in front of all dvui functions, and any error took down the whole app.
+
+Now dvui is aiming to be more robust to errors, especially cases under end-user control.
+
+For example, if your gui shows user-controlled text or graphs user data, then we'd like for dvui to not crash if the user tries to show way too much text/info.  Ideally dvui continues running and shows some visual indication that something is wrong, allowing the user to get back out of the situation.
+
+This is the first big push in that direction, and we'll continue to refine how we handle errors going forward.
+
+If you have an application where dvui error handling is causing problems, I want to know!  Please file an issue.
+
 ## [Raylib Variable Framerate]($section.id("2025-06-04"))
 @sooriya on discord recently asked if we could do variable framerate on raylib, and now we can!
 
