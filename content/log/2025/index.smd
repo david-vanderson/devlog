@@ -11,6 +11,32 @@
 
 [Archive](/log/)
 
+## [Live Resize on Windows and Mac]($section.id("2025-06-24"))
+We all want our applications to repaint smoothly while the OS window is being resized.
+
+Unfortunately Windows and Mac make this difficult.  The normal event loop is suspended during the entire resize.
+
+This meant during the resize you saw:
+* Windows: frozen last frame maybe cropped or with additional space
+* Mac: frozen last frame stretched/squashed to fit
+
+The underlying problem on both platforms is that they run a nested event loop during the resize, so we lose control.
+
+There seem to be 2 solutions:
+* implement callbacks - render a new frame in the callback
+* use multiple threads - render in a separate thread and coordinate
+
+We now use the callback solution by default in the **SDL3 backend if you are using dvui.App** (so already using callbacks).
+
+This works, you can see the content reflow while resizing!
+
+But it is not perfect:
+* Windows: it causes a delay when dragging the OS window around by the window title bar
+* Mac: resizing introduces some jitter in the sizing of the OS window
+* While enabled by default, it can be disabled by `-Dsdl3-callbacks=false`.
+
+As best I can tell, to improve on this you have to use multiple threads and put a lot of bespoke code in.
+
 ## [Removing Errors From Most Functions]($section.id("2025-06-17"))
 Teodor Källman has successfully removed errors from almost all dvui functions.  Horay!
 
