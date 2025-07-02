@@ -11,6 +11,43 @@
 
 [Archive](/log/)
 
+## [June 2025]($section.id("2025-07-02"))
+**8** people contributed this month with **301** commits.
+
+**Colton Franklin** contributed a whole tree widget!
+* easily show a filesystem or other tree-like data
+* expanding subtrees
+* drag-n-drop
+* see the "Reorder / Tree" section of the demo
+
+**Teodor Källman** continued their impressive contributions:
+* removing errors on most functions (see [below](#2025-06-17))
+  * error logs with stack traces
+* major overhaul of dvui's allocations:
+  * shrinking arena wrapper on Zig's arena allocator
+  * splitting dvui's allocations to improve peak memory use
+* matching the system light/dark theme by default
+* tons of backend fixes and enhancements
+* fixes to prevent using undefined
+* removing bubbling events (post forthcoming)
+
+**Paul Hatchman** put a lot of work into:
+* grid features
+  * populate the grid by row or col
+  * resizable columns
+  * sortable columns
+  * keyboard navigation
+* safety checks to prevent use-after-free bugs
+
+**nat3** was back:
+* image() from rgba bytes
+* rendering tvg at runtime
+
+**Meiko** contributed:
+* build.zig changes to improve zls info for backends
+
+Thank you to everyone who asked questions, filed issues, and contributed!
+
 ## [Live Resize on Windows and Mac]($section.id("2025-06-24"))
 We all want our applications to repaint smoothly while the OS window is being resized.
 
