@@ -68,7 +68,8 @@ We now use the callback solution by default in the **SDL3 backend if you are usi
 This works, you can see the content reflow while resizing!
 
 But it is not perfect:
-* Windows: it causes a delay when dragging the OS window around by the window title bar
+* Windows: ~~it causes a delay when dragging the OS window around by the window title bar~~
+  * SDL resolved this issue - we think by disabling vsync during the drag
 * Mac: resizing introduces some jitter in the sizing of the OS window
 * While enabled by default, it can be disabled by `-Dsdl3-callbacks=false`.
 
