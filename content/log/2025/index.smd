@@ -11,6 +11,45 @@
 
 [Archive](/log/)
 
+## [Removing Bubbled Events]($section.id("2025-07-09"))
+We recently removed callbacks for key events.  This is pushing the immediate-mode paradigm forward in an unexpected way.
+
+For background, widget relationships can affect who handles each event.  With immediate-mode, a parent widget does not know what children it will see each frame.
+
+Mouse events:
+* parent might process it **before** children
+  * example: floating window reserves the bottom-left corner for resizing
+* parent might process it **after** children
+  * example: floating window header does click drag if click is **not** on the close button
+
+This works by checking the event against widget rectangles.  A parent can know if a child got a chance, because all the children are inside the parent's rectangle.
+
+Key events are different, they target the widget with keyboard focus.
+
+Key events:
+* parents might process it **after** children
+  * example: up arrow on a button should scroll the containing scroll area (if any)
+
+To make this work, we used to have each widget propagate non-processed key events up the parent chain, just in case a parent wanted to process them.
+
+This works, but uses callbacks.  To add a keyboard shortcut to only a section of the gui, you had to write a whole Widget that was the parent of that whole section.  Ugh.
+
+We finally found the key question:
+* How can a parent know if one of the children had focus?
+
+More generally:
+* How can we know if any sequence of widgets had focus?
+
+The answer is `dvui.lastFocusedIdInFrame()`.  It returns the last widget id we saw during this frame that had focus (might be none).
+
+If you call that twice, and the return is different, then a widget that ran between the two calls had focus.  And you have the id to match events against.
+
+Now to add a keyboard shortcut to a gui section:
+* put the two calls around the section
+* if different, match events against the second return
+
+This is also now what widgets use internally to process key events after children.  It also improves code-flow understanding by not having parent code called during a child's lifetime.
+
 ## [June 2025]($section.id("2025-07-02"))
 **8** people contributed this month with **301** commits.
 
@@ -29,7 +68,7 @@
 * matching the system light/dark theme by default
 * tons of backend fixes and enhancements
 * fixes to prevent using undefined
-* removing bubbling events (post forthcoming)
+* removing bubbling events (see [above](#2025-07-09))
 
 **Paul Hatchman** put a lot of work into:
 * grid features
