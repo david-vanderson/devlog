@@ -11,6 +11,39 @@
 
 [Archive](/log/)
 
+## [July 2025]($section.id("2025-08-01"))
+**7** people contributed this month with **229** commits.
+
+**Teodor Källman** kept the streak alive:
+* new theme editor example in the demo
+* online options editor
+  * override widget Options live to see the changes
+  * open the dvui debug window
+  * select a widget (using Debug Under Mouse)
+  * click "Edit Options" in top right corner
+
+In general this month had tons of improvements across the board:
+* grid improvements
+* more uniform scrolling across backends
+* better scrolling on macos
+* web: better support for on screen keyboards
+* demo cleanups
+* more errors logged to ease development bugs
+* ImageSource
+  * progress on making `image()` smarter about when to regenerate textures
+* Options.data_out
+  * general mechanism to extract data about a widget even from a high level api
+
+Big thanks to everyone who landed at least one commit:
+* Teodor Källman
+* Paul Hatchman
+* nat3
+* Colton Franklin
+* Deins
+* Meiko
+
+Thank you to everyone who asked questions, filed issues, and contributed!
+
 ## [Removing Bubbled Events]($section.id("2025-07-09"))
 We recently removed callbacks for key events.  This is pushing the immediate-mode paradigm forward in an unexpected way.
 
