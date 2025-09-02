@@ -11,6 +11,67 @@
 
 [Archive](/log/)
 
+## [August 2025]($section.id("2025-09-02"))
+**6** people contributed this month with **111** commits.
+
+#### Zig 0.15.1:
+We just (start of September) updated to Zig 0.15.1.  Mostly went smoothly with a few exceptions:
+* dx11 backend is waiting on a dependency update
+* we need to use the llvm backend due to hitting some bug in the native x86_64 backend
+
+#### Theme Cleanup:
+We took the first big step to cleaning up how themes work.  Even just with colors, it's tricky:
+* a theme can't have separate colors for each widget
+  * no room for colors for 3rd party widgets
+  * very hard for theme authors
+
+So we are trying to move towards having a theme with just enough "intention-based" colors, like:
+* a few colors for things you press (like buttons)
+* a few for things that have text content (like textLayout)
+* a few for containers of other widgets (like windows)
+
+This is combined with a fallback system, so (for example) if the theme provides a button fill color, but no button hover fill color, dvui will create one by lightening/darkening the fill color (depending on the light/dark setting of the theme).
+
+I think we are headed in the right direction, but will likely need a few more tweaks, possibly including:
+* colors in the theme reserved for application use
+* color palette for stuff like different lines in a plot
+
+Theme stuff dovetails into how to override colors for single widgets.  We aren't as far along here, but investigating a tiered approach:
+* easy way to override a few colors (text, fill, border)
+  * typically stuff that is used in an ad-hoc way, maybe just during development
+* general way to override all colors
+  * might involve copying/modifying the theme locally
+* still figuring out how to flow overrides from parent to child widgets
+
+Thanks very much to **Teodor Källman** for working through this!
+
+#### Menus:
+Big thanks to **BrotherJ** for carefully detailing ways in which dvui menu behavior did not match normal expectations.
+
+We fixed a lot of corner cases, so they should feel more like typical OS menus.
+
+#### Cross Widget Dragging:
+We now have a serious answer for how to do cross-widget dragging.  I will post a separate devlog entry soon.
+
+Thank you to **Colton Franklin** for working through this!
+
+#### Other Improvements:
+* Paned got autofit for the first child
+* zls workarounds to get correct backend suggestions
+* added max fps slider to debug window for easy testing
+* button order setting that affects `dvui.dialog()`
+  * default on Windows is "Ok" then "Cancel"
+  * otherwise "Cancel" is before "Ok"
+
+Thank you very much to everyone who landed at least one commit:
+* Teodor Källman
+* BrotherJ
+* Paul Hatchman
+* Colton Franklin
+* thuvasooriya
+
+Thank you to everyone who asked questions, filed issues, and contributed!
+
 ## [July 2025]($section.id("2025-08-01"))
 **7** people contributed this month with **229** commits.
 
