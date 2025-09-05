@@ -11,6 +11,63 @@
 
 [Archive](/log/)
 
+## [Cross Widget Dragging]($section.id("2025-09-05"))
+With huge help from **Colton Franklin** we now have the pieces in place to support drag-n-drop across widgets.
+
+Here are the questions for drag-n-drop:
+* How does the drag start?
+* What is being dragged?
+* Who draws the thing being dragged?
+* How do you know when a drag is happening?
+* How does the drag end?
+
+For dragging inside a single widget, the answers are pretty easy:
+* Capture the mouse on mouse down
+  * call `dvui.dragPreStart()`
+
+* Drag starts once mouse motion exceeds the drag threshold (`dvui.dragging()` is non-null)
+  * the single widget records what is being dragged
+
+* Drag is happening while we have capture and `dvui.dragging()` is non-null
+  * the single widget draws an icon (in a FloatingWidget) to depict the thing being dragged
+
+* Finish the drag on mouse up
+  * because we have capture, we always see the mouse up
+  * end the drag `dvui.dragEnd()`
+  * give up mouse capture
+
+#### Drag-n-Drop Across Widgets:
+We added a "drag name" mechanism.  You assign a well-known string for each logical kind of cross-widget drag. All the widgets involved use that drag name to coordinate.
+
+The sequence for cross-widget dragging:
+* Starting widget (still) captures the mouse on mouse down
+  * pass the drag name to `dvui.dragPreStart()`
+
+* Drag starts once mouse motion exceeds the drag threshold (`dvui.dragging()` is non-null)
+  * starting widget must give up mouse capture
+  * application must record what is being dragged
+
+* Drag is happening while `dvui.dragName()` is true
+  * widgets use this to show "I'm a valid drop target"
+  * one widget (usually the starting widget) or separate code draws (in a FloatingWidget) the thing being dragged
+  * drag icon position is `dvui.currentWindow().mouse_pt.plus(dvui.dragOffset())`
+
+* Widgets must pass the drag name to `dvui.eventMatch()` to match mouse events
+
+* Finish the drag on mouse up
+  * if a participating widget gets mouse up, it is a successful drop
+  * end the drag `dvui.dragEnd()`
+
+* Unhandled mouse up cancels
+  * if no widget handles mouse up, `dvui.Window` will see it and cancel the drag
+
+This is enough pieces to implement cross-widget drag-n-drop, including multiple separate non-interacting cross-widget drags.
+
+In the demo "Reorder / Tree" section, expand the "Advanced" section and toggle the checkbox.  This shows how you can drag things from the simple reorder section to the advanced section.
+
+If you have any questions or problems, please ask on Discord or file an issue/discussion on Github!
+
+
 ## [August 2025]($section.id("2025-09-02"))
 **6** people contributed this month with **111** commits.
 
@@ -51,7 +108,7 @@ Big thanks to **BrotherJ** for carefully detailing ways in which dvui menu behav
 We fixed a lot of corner cases, so they should feel more like typical OS menus.
 
 #### Cross Widget Dragging:
-We now have a serious answer for how to do cross-widget dragging.  I will post a separate devlog entry soon.
+We now have a serious answer for how to do [cross-widget dragging](#2025-09-05).
 
 Thank you to **Colton Franklin** for working through this!
 
