@@ -49,7 +49,7 @@ The sequence for cross-widget dragging:
 
 * Drag is happening while `dvui.dragName()` is true
   * widgets use this to show "I'm a valid drop target"
-  * one widget (usually the starting widget) or separate code draws (in a FloatingWidget) the thing being dragged
+  * one widget (usually the starting widget) or separate code draws (in a FloatingWidget with `.mouse_events = false`) the thing being dragged
   * drag icon position is `dvui.currentWindow().mouse_pt.plus(dvui.dragOffset())`
 
 * Widgets must pass the drag name to `dvui.eventMatch()` to match mouse events
