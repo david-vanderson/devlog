@@ -74,7 +74,7 @@ If you have any questions or problems, please ask on Discord or file an issue/di
 #### Zig 0.15.1:
 We just (start of September) updated to Zig 0.15.1.  Mostly went smoothly with a few exceptions:
 * dx11 backend is waiting on a dependency update
-* we need to use the llvm backend due to hitting some bug in the native x86_64 backend
+* ~~we need to use the llvm backend due to hitting some bug in the native x86_64 backend~~ (fixed)
 
 #### Theme Cleanup:
 We took the first big step to cleaning up how themes work.  Even just with colors, it's tricky:
