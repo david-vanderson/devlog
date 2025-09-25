@@ -11,6 +11,35 @@
 
 [Archive](/log/)
 
+## [Large Document Speed]($section.id("2025-09-24"))
+We now have fast partial rendering of large text documents in `TextLayoutWidget` and `TextEntryWidget`.
+* Load the demo
+* Go to the "Text Entry" or "Text Layout" sections
+* Click the "Large Doc" button at top right
+* Scrolling/Selection/Editing are fast independent of the amount of text
+
+The neat thing is the api for feeding text into these widgets is unchanged (thanks **Teodor Källman**!).
+
+It works generally the way you might expect:
+* textLayout records the height after each newline (at least 200px apart)
+* when passed `.cache_layout = true`, it uses the heights from last frame to only render the visible text
+
+For textEntry editing, it combines the byte range affected by the edits with the visible text.
+
+Things that require passing `.cache_layout = false` for a frame:
+* changing the text content outside of textEntry
+* changing the font
+* changing the font line spacing
+
+textLayout detects a few situations automatically:
+* natural scale of app changes
+* break_lines changes
+* width changes when break_lines is true
+
+dvui is starting to be reasonable for file editing!
+
+If you have any questions or problems, please ask on Discord or file an issue/discussion on Github.  Thanks!
+
 ## [Cross Widget Dragging]($section.id("2025-09-05"))
 With huge help from **Colton Franklin** we now have the pieces in place to support drag-n-drop across widgets.
 
