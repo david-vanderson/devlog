@@ -11,6 +11,49 @@
 
 [Archive](/log/)
 
+## [Septemer 2025]($section.id("2025-10-02"))
+**6** people contributed this month with **145** commits.
+
+#### Struct UI
+Big thanks to **Paul Hatchman** who overhauled `dvui.structUI` and it's no longer experimental.
+* automatically generates a UI to edit arbitrary zig structs
+* makes it very easy to quickly edit arbitrary data, especially in a debug window
+* see the demo "Struct UI" for examples
+
+#### TextLayout/TextEntry Performance
+
+A lot of work went into improving the speed of text layout and editing:
+* kerning options added (can turn off to improve speed)
+* ascii fast path for glyph measurement lookup
+
+The big enhancment is adding [partial rendering](#2025-09-24):
+* new `.cache_layout` option
+* textLayout only processes visible text
+* textEntry communicates with textLayout to process only visible text while editing
+* performance is now independent of the size of the document
+* see demo "Large Doc" button in both "Text Entry" and "Text Layout" sections
+
+#### Theme Cleanup:
+
+We did another round of theme work including:
+* Options: add back hover/press colors
+  * these were useful and expected
+* Options: add `*Theme`
+  * allows passing a separate theme instead of setting/resetting the global theme
+  * demo "Styling" shows a button for each builtin theme
+* Theme: add styles app1/app2/app3
+  * reserved for application use (dvui won't use for builtin widgets)
+  * place for applications to put colors that cooperate with the dvui theming system
+
+#### Other Improvements:
+* JPGEncoder - can write JPG via stb_image_write (**Teodor Källman**)
+* TreeWidget - animations and tracking state (**Colton Franklin**)
+* `clickedEx()` - can check for alternate mouse buttons (**rasp2006**)
+* better appearance at scales between 100-200% (like Windows 125%)
+* stroking a path with very acute angles more accurately preserves stroke thickness
+
+Thank you to everyone who asked questions, filed issues, and contributed!
+
 ## [Large Document Speed]($section.id("2025-09-24"))
 We now have fast partial rendering of large text documents in `TextLayoutWidget` and `TextEntryWidget`.
 * Load the demo
@@ -102,7 +145,7 @@ If you have any questions or problems, please ask on Discord or file an issue/di
 
 #### Zig 0.15.1:
 We just (start of September) updated to Zig 0.15.1.  Mostly went smoothly with a few exceptions:
-* dx11 backend is waiting on a dependency update
+* ~~dx11 backend is waiting on a dependency update~~ (fixed)
 * ~~we need to use the llvm backend due to hitting some bug in the native x86_64 backend~~ (fixed)
 
 #### Theme Cleanup:
