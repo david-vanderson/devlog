@@ -11,6 +11,39 @@
 
 [Archive](/log/)
 
+## [October 2025]($section.id("2025-11-01"))
+**5** people contributed this month with **146** commits.
+
+#### Screen Reader Support
+Huge thanks to **Paul Hatchman** who implemented OS **screen-reader** support!
+
+DVUI now integrates with [AccessKit](https://accesskit.dev/) via their [C API](https://github.com/AccessKit/accesskit-c) to communicate the dvui widget tree to the OS-specific accessibility apis.
+* use `-Daccesskit=static` or `-Daccesskit=shared` (also `-fsys=accesskit`)
+* supports Windows, Mac, and Linux
+* can get accessibility input events (like focus or activate)
+* see [readme-accessibility](https://github.com/david-vanderson/dvui/blob/main/readme-accessibility.md) for details
+* please file bugs and missing features so we can continue to improve this
+
+This is a huge step for accessibility - horay!
+
+#### Focus Groups
+
+As part of the accessibility work, we found that dvui was not handling keyboard navigation correctly for logical groups of widgets (radio groups, tabs, menus, trees, grids).
+
+Now TAB will move focus to the group, arrow keys move focus inside a group, and a second TAB will move past the group.
+
+This is done automatically for tabs/menus/trees/grids, and available as `radioGroup` for radio buttons and `focusGroup` for arbitrary groups.
+
+#### Other Improvements:
+* Backend logging integrated with zig logging (**Teodor Källman**)
+* TextLayoutWidget handles invalid utf8 when `.cache_layout` (**Teodor Källman**)
+* LabelWidget - will ellipsize when not enough room
+* Debug - new "Frame Times" graph can help understand if jitter is coming from between Window.begin/end
+* new `link()` that renders URLs and handles clicks (also TextLayoutWidget.addLink)
+* Theme.max_default_corner_radius - easier to have themes with sharper corners
+
+Thank you to everyone who asked questions, filed issues, and contributed!
+
 ## [Septemer 2025]($section.id("2025-10-02"))
 **6** people contributed this month with **145** commits.
 
