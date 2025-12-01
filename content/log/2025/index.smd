@@ -76,9 +76,9 @@ To support this, `dvui.Event` grew two new kinds of events:
 
 #### More Improvements:
 
-* nice plot ticks and subticks (**leventev**)
+* nice plot ticks and subticks (**Levente Vámos*)
   * including formatting, tick/grid lines, mirrored tick lines
-* plot log scales (**leventev**)
+* plot log scales (**Levente Vámos*)
 * optionally include builtin fonts (**Teodor Källman**)
 * bar plots (**geemili**)
 * tree keyboard nav improvements (**Jamie Harvey**)
