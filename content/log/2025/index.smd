@@ -11,6 +11,83 @@
 
 [Archive](/log/)
 
+## [November 2025]($section.id("2025-12-01"))
+**9** people contributed this month with **150** commits.
+
+#### Raylib-zig Backend
+
+Big thanks to **Accipiter Nova** for contributing a whole new `raylib-zig` backend!
+* uses [raylib-zig](https://github.com/raylib-zig/raylib-zig) zig bindings to raylib instead of C api
+* new examples `raylib-zig-standalone`, `raylib-zig-ontop`, and `raylib-zig-app`
+
+#### SDL3GPU Backend
+
+Huge thanks to **Peter Li** who contributed a whole new `sdl3gpu` backend!
+* makes dvui usable with sdl3gpu apps/games
+* new examples `sdl3gpu-standalone` and `sdl3gpu-ontop`
+
+#### Ninepatch Backgrounds
+
+**Louis Pearson** contributed [ninepatch scaling](https://en.wikipedia.org/wiki/9-slice_scaling), a technique to scale up small images while retaining corner and side details.
+
+This is very useful for customizing box and especially button backgrounds that can resize nicely. Thank you!
+
+#### Merge Widget init() and install()
+
+**Teodor Källman** fixed a longstanding api mistake I made early on.  Thank you!
+
+NOTE: The higher-level apis like `dvui.button()` are unchanged, this only affected the lower level apis.
+
+Widgets used to have a 2-step initialization thing:
+```zig
+var bw = ButtonWidget.init(...);
+bw.install();
+```
+
+It was done this way to support modifying the rect a widget got from `init()` before it processed events or drew anything in `install()`.
+
+Turns out that is a *very* niche usecase, and it's easy to forget to call `install()` and access undefined memory.
+
+Also because `init()` had to return a (copy) of the widget, `init()` could not take any pointers to internal widget stuff, which tripped us up more than a few times.
+
+Now we have merged these into a single `init()` that takes a mutable self pointer:
+```zig
+var bw: ButtonWidget = undefined;
+bw.init(src, init_opts, opts);
+```
+
+This should make these apis easier to use and harder to mess up.
+
+
+#### New Events (quitting)
+
+We got requests for a way to show a "unsaved work warning" dialog when the user clicks the window close button.
+
+To support this, `dvui.Event` grew two new kinds of events:
+* "Window" events (currently only "close") pertain to the OS window
+  * future events could be stuff like "resized", "focus lost", "minimized", etc.
+  * each `dvui.Window` can match these events for its OS window
+* "App" events (currently only "quit") are for the whole application
+  * future events could be something like "about to go to background"
+  * these will likely be delivered to only a single `dvui.Window`, but will always match
+
+`dvui.App` based applications can handle these events to prevent the default behavior (the application shutting down).
+
+
+#### More Improvements:
+
+* nice plot ticks and subticks (**leventev**)
+  * including formatting, tick/grid lines, mirrored tick lines
+* plot log scales (**leventev**)
+* optionally include builtin fonts (**Teodor Källman**)
+* bar plots (**geemili**)
+* tree keyboard nav improvements (**Jamie Harvey**)
+* PanedWidget autofit first pane when horizontal (**Jamie Harvey**)
+* textEntry accepts `*ArrayList(u8)` as a backing buffer
+* renderText and LabelWidget handle rotated text
+
+Thank you to everyone who asked questions, filed issues, and contributed!
+
 ## [October 2025]($section.id("2025-11-01"))
 **5** people contributed this month with **146** commits.
 
