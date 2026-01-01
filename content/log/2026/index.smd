@@ -1,0 +1,64 @@
+---
+.title = "DVUI Devlog 2026",
+.date = @date("2026-01-01T00:00:00"),
+.author = "David Vanderson",
+.layout = "devlog.shtml",
+.draft = false,
+--- 
+[]($section.id('about'))
+
+[RSS Feed]($link.page('log').alternative('rss'))
+
+[Archive](/log/)
+
+## [December 2025]($section.id("2026-01-01"))
+**6** people contributed this month with **56** commits.
+
+#### Fonts
+
+Font selection got a major upgrade.  Until now we had to refer to an individual font ttf.
+
+Now `Font` acts like a query that searches for a matching `Font.Source`:
+
+* `.font = .theme(.heading)`
+* `.font = Font.theme(.heading).larger(2)`
+* `.font = dvui.themeGet().font_mono.withWeight(.bold).withStyle(.italic)`
+
+`dvui.Theme` has 4 fonts (body, heading, title, mono) and grew an `embedded_fonts` field so that font sources can be tied to the theme that requires them.
+
+For now we still only have a single pool of `Font.Source` that is internal to dvui.  In the future we hope to extend this to be able to query for system fonts.
+
+#### Syntax Highlighting
+
+We are now bundling the tree-sitter library, and TextEntryWidget gained a `tree_sitter` option.
+
+The usage code is responsible for providing:
+* tree-sitter grammar
+* queries strings (usually these are called "highlights.scm")
+* list of matching capture names and `dvui.Options`
+
+Right now an example is only in the main window of the "app" example (like `zig build sdl3-app`), but eventually we will figure out a way to integrate it into the demo window.
+
+This integrates with `.cache_layout = true` to provide incremental edit parse updates and good performance on large documents.
+
+Any feedback would be welcome!
+
+#### More Improvements:
+
+* dvui.dataSetDeinitFunction: can provide a callback for when some data is being trashed 
+  * useful for tracking data allocated by a separate library
+* expose more build-time options
+  * stb_image
+  * libc
+  * freetype
+  * tiny file dialogs
+* fixed toast centering and visual glitches when multiple different sized toasts are together
+* textEntry: textGet() return value stays valid after deinit()
+* web: don't process ctrl-tab
+  * in some browsers we were preventing ctrl-tab from switching tabs
+* tree: allow animating a branch closing
+* flexbox: add border_collapse and row/col
+* raylib: updated dependency that fixes a lot of hidpi issues
+* web: fix performance issue
+
+Thank you to everyone who asked questions, filed issues, and contributed!
