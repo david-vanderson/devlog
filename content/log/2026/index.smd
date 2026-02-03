@@ -11,6 +11,53 @@
 
 [Archive](/log/)
 
+## [January 2026]($section.id("2026-02-03"))
+**3** people contributed this month with **65** commits.
+
+#### Accesskit Text Runs
+
+Giant thanks to **Paul Hatchman** for adding text run support to our Accesskit integration!
+
+Screen readers can now navigate normally through textLayout and textEntry content.
+
+This is the last large piece needed for decent screen reader support.  Wohoo!
+
+While we will continue work in this area for bugs and enhancements, this is a huge milestone.
+
+Big thanks to **Arnold Loubriat** for helping us use Accesskit properly and for loads of testing!
+
+Shout out to **Ethin Probst** for excellent reporting and testing!
+
+
+#### Retaining Textures and Data
+
+dvui implements a form of garbage collection for textures and data.  If you don't reference a texture or call dataGet/Set for a frame, we free that memory.  But sometimes you want to keep things around a bit longer.
+
+Now we provide functions `textureRetain`, `dataRetain`, and `retainClear`.
+
+These give a way to keep dvui from freeing these things, while associating them with a "retain key".  That key can be passed later to `retainClear` to tell dvui to stop retaining them.
+
+This was motivated by the demo's stuttering when reshowing the demo buttons (which trigger regenerating a bunch of textures).  It's now fixed by:
+* retaining the generated textures and associated data
+* the retain key is the demo window id
+* the demo window has a placeholder data with `dataSetDeinitFunction` which calls `retainClear`
+
+So the flow is:
+* while the demo window is shown, we retain the textures/data
+* when the demo window is closed, we free the placeholder data
+* the deinit function calls retainClear
+* the textures/data are freed
+
+These features all come together to allow retaining data to match the lifetime of some higher level widget.
+
+#### More Improvements:
+
+* floatingWindow: add `autoPosition()` to center (after a resize)
+* floatingWindow: option to disable resizing
+* web backend: changes to enable more javascript customization
+
+
+
 ## [December 2025]($section.id("2026-01-01"))
 **6** people contributed this month with **56** commits.
 
