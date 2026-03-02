@@ -11,6 +11,55 @@
 
 [Archive](/log/)
 
+## [February 2026]($section.id("2026-03-02"))
+**9** people contributed this month with **111** commits.
+
+#### GLFW OpenGL Backend
+
+Huge thanks to **Jakob Ingvast** who contributed an entire new GLFW OpenGL backend!
+* new examples `glfw-opengl-app` and `glfw-opengl-ontop`
+
+#### Group Box
+
+**Paul Hatchman** contributed a new `GroupBox` widget ("fieldset" in web speak).  It combines a title with an outline around a group of widgets. Thank you!
+
+See it in the demo > "Basic Widgets" > "Slider examples in a group box".
+
+#### Font Sizing
+
+`Font.size` is now the height of "M" in logical pixels.  This gives us more consistent sizing between fonts with different ascent/descent values.  It also brings dvui more in line with other software.
+
+In particular, the Noto fonts have larger ascent values than other fonts.  Also new, setting `Font.line_height_factor` to a value less than 1 will remove space from a font's ascent.  This is useful to visually center Noto font labels in buttons.
+
+#### Texture Targets
+
+Some texture target improvements:
+* `dvui.Texture.Target.clear()` clears to fully transparent
+* `dvui.Texture.Target.destroyLater()` destroys at end of frame
+* `dvui.Texture.fromTargetTemp()` gets a temporary (dvui-owned) texture from a target that can be drawn
+
+These give more control to applications that want to reuse a target texture.
+
+Most backends treat textures and target textures fairly interchangeably, but not all.  To deal with this, we are trying out having two functions to get a normal texture from a target:
+* `.fromTarget()` destroys the target texture
+  * user code is owns and must destroying the returned texture
+* `.fromTargetTemp()` leaves the target texture alone
+  * returned texture is temporary (good for this frame only)
+
+#### More Improvements:
+
+* scrolling: report total user scroll (useful for sticky bottom)
+* widget stack: log if widgets are not run in LIFO order
+* web: more cleanups to support custom javascript
+* dropdowns: support null values and placeholder text
+* stb_truetype: improved appearance from better positioning of glyph textures
+* textEntryNumber: option to overwrite or clear text
+* tooltips: new delay option
+* textures: start of support for different pixel formats
+
+Thank you to everyone who asked questions, filed issues, and contributed!
+
+
 ## [January 2026]($section.id("2026-02-03"))
 **3** people contributed this month with **65** commits.
 
@@ -56,6 +105,7 @@ These features all come together to allow retaining data to match the lifetime o
 * floatingWindow: option to disable resizing
 * web backend: changes to enable more javascript customization
 
+Thank you to everyone who asked questions, filed issues, and contributed!
 
 
 ## [December 2025]($section.id("2026-01-01"))
