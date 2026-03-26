@@ -351,7 +351,7 @@ For background, widget relationships can affect who handles each event.  With im
 
 Mouse events:
 * parent might process it **before** children
-  * example: floating window reserves the bottom-left corner for resizing
+  * example: floating window reserves the bottom-right corner for resizing
 * parent might process it **after** children
   * example: floating window header does click drag if click is **not** on the close button
 
