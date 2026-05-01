@@ -11,6 +11,53 @@
 
 [Archive](/log/)
 
+## [April 2026]($section.id("2026-05-01"))
+**14** people contributed this month with **107** commits.
+
+### Zig 0.16
+
+dvui main branch is now using zig 0.16.0.  No huge changes, but I'm quite excited about things we might be able to do in the future leveraging the `std.Io`.
+
+There is a new `dvui.io` global var that needs to be set (usually by the backend) before creating a `dvui.Window`.
+
+### Android Example
+
+Big thanks to **Shehab Ellithy** for contributing an example for how to compile dvui for android devices.  See `examples/android-example/README.md`.
+
+### OpenGL Renderer
+
+Huge thanks to **Elaine Gibson** for consolidating the opengl code from the wio and glfw backends.  This is the beginning of separating dvui backends from rendering code.
+
+It improves our rendering code and makes writing new backends easier.  Thank you!
+
+
+### Scroll Speed #2
+
+We did a second round of scrolling speed improvements.  Mouse wheel scrolling got faster across the board.
+
+On web in particular we now have a heuristic that tries to detect a mouse wheel from a touchpad and scale them separately.
+
+See https://github.com/david-vanderson/dvui/pull/805 for details.
+
+Please report platforms/situations where scrolling feels wrong!
+
+### Smoothly Zooming Text
+
+Normally you want glyphs to be aligned to the pixel grid.  But if you are smoothly zooming (not in fixed increments) this causes visual jitter.
+
+Now if you:
+* use stb_truetype (`-Dfreetype=false`)
+* turn off snapToPixels when rendering the text
+
+the glyphs will no longer be aligned to the pixel grid.  This removes the visual jitter.  The cost is blurrier text.
+
+### More Improvements:
+
+* tooltip: new `.scale` option for when you don't want the tooltip to scale with content
+* reduce_motion: new `dvui.reduce_motion` bool that makes animations finish instantly
+
+Thank you to everyone who asked questions, filed issues, and contributed!
+
 ## [March 2026]($section.id("2026-04-03"))
 **6** people contributed this month with **106** commits.
 
