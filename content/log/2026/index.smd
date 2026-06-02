@@ -44,7 +44,6 @@ The heuristic is based on the values dvui sees from mouse wheel events.  Please 
 * font: underline and strike (strikethrough) options
 * textLayout: different font sizes are baseline aligned
 * raylib: better variable framerate, work around a glfw/wayland problem that causes spurious wakeups
-* time: if time goes backwards, `secondsSinceLastFrame` now reports 10ms per frame, ensuring animations proceed reasonably
 
 Thank you to everyone who asked questions, filed issues, and contributed!
 
