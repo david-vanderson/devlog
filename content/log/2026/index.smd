@@ -11,6 +11,87 @@
 
 [Archive](/log/)
 
+## [June 2026]($section.id("2026-07-01"))
+**9** people contributed this month with **128** commits.
+
+### Fancy Corners
+
+Big thanks to **Logickin** for overhauling our corner drawing.
+
+Previously corners were assumed to be circles with a custom radius.
+
+Now you can individually specify each corner with options:
+* `square` - sharp corner
+* `round` - circle with custom radius
+* `chamfer` - 45 deg cut with custom size
+* `angular` - angle cut with custom x/y offset
+* `nudge` - adjust where the corner is drawn (makes things like trapezoids possible)
+* `default` - use corner style and size from theme
+* `theme` - use corner style from theme with custom size
+
+`Options.corner_radius` is replaced by `Options.corners`.
+
+`Theme.max_default_corner_radius` is replaced by `Theme.corner`.
+
+New builtin "Tech" themes show what you can do.  Check it out!
+
+### Child OS Windows
+
+Huge thanks to **Aurélien Cibrario**.  This lays the foundation to have separate OS windows for things like:
+* tool windows
+* debug windows
+* export dialogs
+
+These OS windows are children of the main OS window.  They go away if the parent OS window is closed, or if the code is not run for a frame, just like normal widgets.
+
+The insight is that we can try to open a child OS window, but if it fails use `floatingWindow` instead.
+
+Try it in the `sdl3-app` demo - "Extra OS Window (experimental)" button!
+
+### Persisting OS Window Geometry
+
+Giant thank you to **Colton Franklin** for contributing the ability to save window size/state across restarts.
+
+The new dvui.App `persist_window_geometry` option (default true, but currently SDL3 backend only), this makes dvui record the OS window size and state, and try to restore that on startup.
+
+The info is recorded in a small `window_geometry.zon` file either inside the new `pref_path` option, or if that is null, `SDL_GetPrefPath` on the `org` and `title` options.
+
+### Scaling - Pixel vs. Content
+
+dvui windows can now change scale as they move between monitors.
+
+We also nailed down some scaling details:
+* "pixel scaling" is when displays have high dpi
+  * difference between `Backend.pixelSize` and `Backend.windowSize`
+* "content scaling" is a user preference (maybe per-display)
+  * `Backend.contentScale`
+* dvui.currentWindow.content_scale is now separate from backend
+  * used to scale the whole app (like pinch-zoom)
+
+These are all combined for you when using `RectScale` stuff, so you don't normally need to know the differences.
+
+### Dialog Layout
+
+Dialogs on Windows (or when `button_order` is `.ok_cancel`) have slightly changed layout:
+* title on left
+* close button on right
+* right_str just left of close button
+
+In addition, all dialogs moved the ok/cancel buttons from bottom-center to the bottom-right.
+
+If any of this is causing a problem for you, please get in touch or file an issue!
+
+### More Improvements:
+
+* label: option to highlight parts of the label (**youssless92**)
+* textEntryNumber: option to limit number of characters (**Paul Hatchman**)
+* new wio-standalone example (**Mario Davó**)
+* window.title(): function to change the OS window title
+* window.stateSet(): function to fullscreen/maximize/normalize the OS window
+  * sdl and wio supported currently
+
+Thank you to everyone who asked questions, filed issues, and contributed!
+
 ## [May 2026]($section.id("2026-06-01"))
 **10** people contributed this month with **142** commits.
 

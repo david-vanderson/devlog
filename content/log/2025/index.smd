@@ -16,7 +16,7 @@
 
 #### Raylib-zig Backend
 
-Big thanks to **Accipiter Nova** for contributing a whole new `raylib-zig` backend!
+Big thanks to **Logickin** for contributing a whole new `raylib-zig` backend!
 * uses [raylib-zig](https://github.com/raylib-zig/raylib-zig) zig bindings to raylib instead of C api
 * new examples `raylib-zig-standalone`, `raylib-zig-ontop`, and `raylib-zig-app`
 
