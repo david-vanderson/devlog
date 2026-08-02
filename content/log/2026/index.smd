@@ -11,6 +11,55 @@
 
 [Archive](/log/)
 
+## [July 2026]($section.id("2026-08-02"))
+**7** people contributed this month with **98** commits.
+
+### Docking
+
+Big thanks to **Bruno Massa** who contributed a docking solution!
+
+`dvui.dockspace` is the entry point.  Check it out in the new demo "Docking" section.
+
+### Grid Improvements
+
+GridWidget was enhanced to better support two usecases.
+
+First is spreadsheet-like interaction, where you can move the "selected" cell around.  `cell.editable` gives a cell that becomes editable on enter or other key press.
+
+Second is purely for widget layout.  The `.layout_only` init option now turns off all interactions.
+
+### Devtools
+
+Huge thank you to **Bruno Massa** for contributing a bunch of devtools:
+* Window.renderStats: performance stats for last completed frame
+* debug.capture*: compare widget trees captured from frames
+* debug.dump*: output widget trees in json for external tools
+
+You can checkout the initial UI with `zig build devtools` which currently uses the sdl3gpu backend.
+
+### Bundled Web Server for Demo
+
+Big thanks to **Lue** for contributing a dedicated web server for development (not production).  This helps people who can't or don't want to run a separate local server during devlopment.
+
+`zig build serve-web-app` - check it out!
+
+### Native Tesselator
+
+Giant thank you to **nat3** for contributing a zig native polygon tesselator!
+
+This is a direct port of mapbox's earcut, and is now used for svg and tvg icon rendering.  Instead of caching a rasterized version, we now cache the triangles directly.
+
+They also contributed `addQuadBezier` and `addCubicBezier` to `Path.Builder`.
+
+This means we finally have a `Path.fill` function that works on arbitrary paths!
+
+### More Improvements:
+
+* hoverFade: fading in/out hover highlights (**Sawyer X** - thank you!)
+* textLayout: helpers for tree sitter highlighting separated from textEntry
+
+Thank you to everyone who asked questions, filed issues, and contributed!
+
 ## [June 2026]($section.id("2026-07-01"))
 **9** people contributed this month with **128** commits.
 
