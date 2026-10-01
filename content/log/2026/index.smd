@@ -11,6 +11,94 @@
 
 [Archive](/log/)
 
+## [September 2026]($section.id("2026-10-01"))
+**5** people contributed this month with **59** commits.
+
+### Browser Style Zoom
+
+New keybinds for cmd/ctrl-plus/minus that adjust the content scale, similar to a browser tab.
+* new Window.init option, off by default
+* dvui.App turns it on by default
+* web forces it off (because browser does it)
+    
+The intention is to help people who would use a screen magnifier.  This
+gives an alternate way to increase the content size of an application
+where most drawing is still sharp.
+
+Inspired by Trevor Settles lighting talk "I Just Wanted a Non-Blurry
+Screen Magnifier" at Software Should Work 2026
+
+### Grid Column Sizing
+
+**Paul Hatchman** put a lot of work into helping me sort out how grid columns should work.  We now have 3 categories:
+* normal
+  * column does not take extra space
+  * width is determined by min width of all run cells (and colHeader)
+  * resizing changes this column's width only (other expanded columns might adjust)
+* expanded
+  * when at least one cell (or colHeader) has `.expand = .horziontal` or .`both`
+  * takes extra space weighted by min width
+  * resizing makes an offsetting change in other expanded columns (or normal if needed)
+* fixed
+  * `.resizable = false` passed to `colHeader`
+  * turns off user drag-resizing
+  * won't be changed when other columns resize
+
+When the grid does not have enough horizontal space (and no horizontal scrolling), `fixed` get all their space, normal/expanded are shrunk weighted by min width.
+
+Please ask or file an issue if you are having trouble with grid!
+
+### Text Layout Long Lines
+
+**Colton Franklin** provided an initial implementation and helped fix long line performance in textLayout/textEntry (when using `.cache_layout = true`).
+
+Now when a line of text is many times as wide as the visible width, `textLayout` can skip non-visible portions of the line.
+
+While most of the changes are internal, the api needed to change to communicate which spans of bytes were going to be visible.  This allows callers to skip expensive calculations (like syntax highlighting) for bytes that `textLayout` is going to ignore anyway.
+
+The new api is to call `cacheLayoutNext()` in a loop:
+* each call returns the "current" visible region (start and end bytes)
+* once textLayout has seen enough bytes to get to the end, `cacheLayoutNext()` will advance to the next region
+
+Here's the code that `textEntry` uses when syntax highlighting:
+```zig
+outer: while (true) {
+    const cln = self.textLayout.cacheLayoutNext();
+    iter.setByteRange(cln.start, cln.end); // bytes range we want highlighted
+    while (iter.next()) |h| {
+        self.textLayout.addText(h.text, h.opts orelse normal_opts);
+        if (self.textLayout.bytes_seen >= cln.end) continue :outer; // need next byte range
+    } else {
+        break :outer; // ran out of text
+    }
+}
+
+self.textLayout.addTextDone(normal_opts);
+```
+
+One unanswered question is how the api should work for an application that is retrieving the contents dynamically (like from a database).  Currently we don't have a way to tell `textLayout` to pretend we gave it a bunch of bytes.
+
+If you are in that situation please file an issue!
+
+### Synthetic Bold Fonts
+
+**qskousen** contributed the ability to synthesize a "bold" font from a normal weight font.
+
+If you ask for a bold font, and the closest one we have is normal, we will now synthesize it on the fly.  Thank you!
+
+### More Improvements:
+
+* wio/vulkan: allow a custom vulkan context (Thanks **jedugsem**)
+* dialog: keep `user_struct` fields alive so they are available in a `callAfterFn`
+  * makes stuff like a deletion confirmation dialog work with default `displayFn`
+* grid: keyboard navigation skips non-run cells
+* readPixels: SDL3 support for reading framebuffer pixels (Thanks **Colton Franklin**)
+* web: textureUpdate and textureUpdateSubRect (Thanks **Colton Franklin**)
+* web: batch draw calls for performance (Thanks **Colton Franklin**)
+* build: improvements to Android and iOS SDL3 support (Thanks **nat3**)
+
+Thank you to everyone who asked questions, filed issues, and contributed!
+
 ## [August 2026]($section.id("2026-09-02"))
 **8** people contributed this month with **88** commits.
 
