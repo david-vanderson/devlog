@@ -11,6 +11,27 @@
 
 [Archive](/log/)
 
+## [Layout: Expand but Don't Scroll]($section.id("2026-10-20"))
+A layout situation:
+* floatingWindow with scrollArea
+* few labels/controls at the top
+* the rest is a grid
+
+We want both of these properties:
+* grid takes up all remaining space in the floatingWindow
+* grid does NOT cause floatingWindow scrollArea to scroll
+  * if needed, grid should scroll internally
+
+Solution:
+* grid `.expand = .vertical`
+  * take all remaining space
+* grid `.max_size_content = .height(100)`
+  * tell scrollArea we only need 100 pixels, so it won't scroll (unless very tiny)
+
+This works because of how `.max_size_content` and `.expand` interact.  [min_size_content is not the minimum](/log/2025#2025-02-23) and max_size_content is not the maximum.
+
+I'm calling out this specific layout case and solution.  I spent far too much time figuring out what dvui change was needed until realizing we supported it out of the box.
+
 ## [September 2026]($section.id("2026-10-01"))
 **5** people contributed this month with **59** commits.
 
